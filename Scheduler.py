@@ -16,8 +16,12 @@ class Scheduler:
 
     # Run the scheduler. This should ONLY be called by the start method.
     def run(self):
+        
+        test = Webpage.Webpage("https://sitescouttest.netlify.app/sitescouttest.html")
+
         while not self.stopRequested:
-            pass
+            print(test.getContentFromLineAndHtmlTag(test.getLinesFromContent("someCoolData")[0], "someCoolData"))
+            
 
     # Stop the scheduler. This merely requests a stop, so the scheduler will finish its current iteration before stopping.
     def stop(self):
