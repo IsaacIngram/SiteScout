@@ -1,78 +1,66 @@
 import validators, requests
 
+
 class Webpage:
 
     def __init__(self, url):
         self.url = url
 
-    # Set the URL of this webpage
-    def setUrl(self, newUrl):
+    def set_url(self, newUrl):
+        """
+        Set the URL for this webpage
+        :param newUrl: The new URL
+        :return:
+        """
         self.url = newUrl
 
-    # Get the URL of this webpage
-    def getUrl(self):
+    def get_url(self):
+        """
+        Get the URL for this webpage
+        :return: The URL of this webpage
+        """
         return self.url
 
-    # Check whether the URL of this webpage is valid
-    def validateUrl(self):
+    def validate_url(self):
+        """
+        Check whether the URL of this webpage is valid
+        :return: Whether the URl of this webpage is valid as a boolean
+        """
         return validators.url(self.url)
 
-    # Get the HTML content of this webpage. Returns None if URL is invalid
-    def getHtml(self):
-        if self.validateUrl():
+    def get_html(self):
+        """
+        Get the HTML contents of this webpage.
+        :return: The HTML contents of this webpage. Returns NoneType if the URL is invalid.
+        """
+        if self.validate_url():
             return requests.get(self.url).text
         else:
             print("Error: Webpage getHtml method run on invalid URL!")
             print("Tip: Below error messages might be because of this.")
             return None
 
-    # Get a specific line from the HTML file for this webpage
-    def getLine(self, line):
-        return self.getHtml().splitlines()[line]
+    def get_line(self, line):
+        """
+        Get a specific line from the HTML file for this webpage
+        :param line: The line to get
+        :return: The content of the specified line
+        """
+        return self.get_html().splitlines()[line]
 
-    # Get a list of line numbers for lines that contain the given content
-    def getLinesFromContent(self, content):
-        html = self.getHtml()
-        listOfLines = []
+    def get_lines_from_content(self, content):
+        """
+        Generate a list of line numbers that contain the given content
+        :param content: The content to search for
+        :return: A list of which lines contain this content
+        """
+        html = self.get_html()
+        list_of_lines = []
 
         i = 0
         while i < len(html.splitlines()):
             if content in html.splitlines()[i]:
-                listOfLines.append(i+1)
+                list_of_lines.append(i+1)
             i = i+1
-        return listOfLines
-
-    # Gets content for a given attribute on a specific line
-    def getAttributeContentFromLine(self, line, attributeName):
-        html = self.getHtml()
-
-        lengthOfTag = len(attributeName)
-        lineText = html.splitlines()[line-1]
-
-        tagStartIndex = lineText.find(attributeName)
-
-        # Return an empty string since the htmlTag does not exist on this line
-        if tagStartIndex < 0:
-            return ""
-
-        openQuoteIndex = -1
-        closeQuoteIndex = -1
-
-        i = tagStartIndex+lengthOfTag
-        while i < len(lineText):
-            if lineText[i] == '"':
-                if openQuoteIndex < 0:
-                    openQuoteIndex = i
-                elif closeQuoteIndex < 0:
-                    closeQuoteIndex = i
-                    break
-                else:
-                    break
-            i = i+1
-
-        return lineText[openQuoteIndex+1:closeQuoteIndex]
-
-    def getTagContentFromLine(self, line, tag):
-        
-        
+        return list_of_lines
 

@@ -6,4 +6,3 @@ scheduler = Scheduler.Scheduler()
 scheduler.start()
 
 print("SiteScout started")
-
